@@ -22,7 +22,8 @@ namespace CarOnline.Web.Controllers
         // GET: Vehicles
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Vehicles.ToListAsync());
+              return View(await _context.Vehicles.Include(c => c.Types).Include(d => d.Brands)
+                  .Include(e => e.Photos).ToListAsync());
         }
 
         // GET: Vehicles/Details/5
@@ -33,7 +34,8 @@ namespace CarOnline.Web.Controllers
                 return NotFound();
             }
 
-            var vehicle = await _context.Vehicles
+            Vehicle vehicle = await _context.Vehicles
+                .Include(c => c.Types).Include(d => d.Brands).Include(e => e.Photos)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (vehicle == null)
             {

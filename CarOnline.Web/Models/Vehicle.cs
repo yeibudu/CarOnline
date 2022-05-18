@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace CarOnline.Web.Models
 {
@@ -13,5 +15,19 @@ namespace CarOnline.Web.Models
         public string Model { get; set; }
 
         public string Doors { get; set; }
+
+        public ICollection<Brand> Brands { get; set; }
+        [DisplayName("Brands Number")]
+        public int BrandsNumber => Brands == null ? 0 : Brands.Count;
+
+        public ICollection<Type> Types { get; set; }
+        [DisplayName("Types Number")]
+        public int TypesNumber => Types == null ? 0 : Types.Count;
+
+        public ICollection<Photo> Photos { get; set; }
+        [DisplayName("Photos Number")]
+        public int PhotosNumber => Photos == null ? 0 : Photos.Count;
+
+
     }
 }

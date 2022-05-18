@@ -6,31 +6,119 @@
 
 <h1>Details</h1>
 
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+<link rel="stylesheet" href="~/lib/font-awesome/css/fontawesome.css" />
+<link rel="stylesheet" href="~/lib/Font-Awesome/css/regular.min.css">
+<link rel="stylesheet" href="~/lib/Font-Awesome/css/solid.min.css">
+
 <div>
     <h4>Vehicle</h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
+    <dl class="dl-horizontal">
+        <dt>
             @Html.DisplayNameFor(model => model.Plate)
         </dt>
-        <dd class = "col-sm-10">
+        <dd>
             @Html.DisplayFor(model => model.Plate)
         </dd>
-        <dt class = "col-sm-2">
+        <dt> 
             @Html.DisplayNameFor(model => model.Model)
-        </dt>
-        <dd class = "col-sm-10">
+        </dt> 
+        <dd> 
             @Html.DisplayFor(model => model.Model)
         </dd>
-        <dt class = "col-sm-2">
+        <dt> 
             @Html.DisplayNameFor(model => model.Doors)
-        </dt>
-        <dd class = "col-sm-10">
+        </dt> 
+        <dd> 
             @Html.DisplayFor(model => model.Doors)
+        </dd>
+         <dt> 
+            @Html.DisplayNameFor(model => model.TypesNumber)
+        </dt> 
+        <dd> 
+            @Html.DisplayFor(model => model.TypesNumber)
+        </dd>
+         <dt> 
+            @Html.DisplayNameFor(model => model.BrandsNumber)
+        </dt> 
+        <dd> 
+            @Html.DisplayFor(model => model.BrandsNumber)
+        </dd>
+         <dt> 
+            @Html.DisplayNameFor(model => model.PhotosNumber)
+        </dt> 
+        <dd> 
+            @Html.DisplayFor(model => model.PhotosNumber)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index" class="btn btn-success">Back to List</a>
+    <a asp-action="AddType" asp-route-id="@Model.Id" class="btn btn-primary"><i class="fas fa-plus"></i>Type</a>
+    <a asp-action="AddBrand" asp-route-id="@Model.Id" class="btn btn-primary"><i class="fas fa-plus"></i>Brand</a>
+    <a asp-action="AddPhoto" asp-route-id="@Model.Id" class="btn btn-primary"><i class="fas fa-plus"></i>Photo</a>
+     <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning"><i class="fas fa-edit"></i>Edit</a>  
+    <a asp-action="Index"  class="btn btn-success">Back to List</a>
 </div>
+
+<div class="row"> 
+    <div class="col-md-12"> 
+        <div class="panel panel-default"> 
+            <div class="panel-heading"> 
+                <h3 class="panel-title">Brands</h3>
+            </div> 
+            <div class="panel-body"> 
+                <table class="table table-hover table-responsive table-striped" id="MyTable"> 
+                    <thead> 
+                        <tr> 
+                            <th> 
+                                @Html.DisplayNameFor(model => model.Brands.FirstOrDefault().Name) 
+                            </th> 
+                            <th>
+                                
+                            </th> 
+                            <th></th> 
+                       </tr> 
+                    </thead> 
+                    <tbody>
+                        @foreach (var item in Model.Brands)
+                        {
+                            <tr>
+                                <td> 
+                                    @Html.DisplayFor(modelItem => item.Name) 
+                                </td> 
+                                <td> 
+                                    
+                                </td> 
+                                <td> 
+                                    <a asp-action="EditBrand" asp-route-id="@item.Id" class="btn btn-
+                                        warning"><i class="fas fa-edit"></i></a> 
+                                    <a asp-action="DetailsBrand" asp-route-id="@item.Id" class="btn btn-
+                                        info"><i class="fas fa-align-justify"i></a>
+                                    <button data-id="@item.Id" class="btn btn-danger deleteItem"
+                                        data-toggle="modal" data-target="#deleteDialog"><i class="fas fa-trash"></i>
+                                    </button>
+                                </td> 
+                            </tr>
+                        }
+                    </tbody> 
+                </table> 
+            </div> 
+         </div> 
+     </div> 
+</div>
+
+<partial name="_DeleteDialog" />
+
+@section Scripts { 
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="//cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script> 
+    <script src="/js/deleteDialog.js"></script>
+
+<script type="text/javascript"> 
+    $(document).ready(function () { 
+        $('#MyTable').DataTable();
+// Delete item
+//  sc_deleteDialog.openModal('deleteItem', true, 'btnYesDelete', '/Countries/DeleteDepartment/', false); }); </script> }
+
+
