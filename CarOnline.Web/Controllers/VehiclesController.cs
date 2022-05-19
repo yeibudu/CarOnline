@@ -22,8 +22,12 @@ namespace CarOnline.Web.Controllers
         // GET: Vehicles
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Vehicles.Include(c => c.Types).Include(d => d.Brands)
-                  .Include(e => e.Photos).ToListAsync());
+              return View(await _context.Vehicles.Include(d => d.Brands).ToListAsync());
+        }
+
+        public async Task<IActionResult> BrandsIndex()
+        {
+            return View(await _context.Brands.ToListAsync());
         }
 
         // GET: Vehicles/Details/5
@@ -34,8 +38,7 @@ namespace CarOnline.Web.Controllers
                 return NotFound();
             }
 
-            Vehicle vehicle = await _context.Vehicles
-                .Include(c => c.Types).Include(d => d.Brands).Include(e => e.Photos)
+            Vehicle vehicle = await _context.Vehicles.Include(d => d.Brands)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (vehicle == null)
             {
@@ -56,7 +59,7 @@ namespace CarOnline.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Plate,Model,Doors")] Vehicle vehicle)
+        public async Task<IActionResult> Create([Bind("Id,Plate,Model,Doors,Type")] Vehicle vehicle)
         {
             if (ModelState.IsValid)
             {
@@ -106,7 +109,7 @@ namespace CarOnline.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Plate,Model,Doors")] Vehicle vehicle)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Plate,Model,Doors,Type")] Vehicle vehicle)
         {
             if (id != vehicle.Id)
             {
@@ -159,6 +162,80 @@ namespace CarOnline.Web.Controllers
         private bool VehicleExists(int id)
         {
           return _context.Vehicles.Any(e => e.Id == id);
+        }
+
+
+        public IActionResult CreateBrand()
+        {
+            return View();
+        }
+
+        // POST: Vehicles/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateBrand([Bind("Name")] Brand brand)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Add(brand);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(BrandsIndex));
+                }
+                catch (DbUpdateException dbUpdateException)
+                {
+                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
+                    {
+                        ModelState.AddModelError(string.Empty, "There are a record with the same name.");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                    }
+                }
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
+                }
+            }
+            return View(brand);
+        }
+
+        /*
+        public async Task<IActionResult> DetailsBrand(int? id)
+        {
+            if (id == null || _context.Brands == null)
+            {
+                return NotFound();
+            }
+
+            Brand brand = await _context.Brands.FirstOrDefaultAsync(m => m.Id == id);
+            if (brand == null)
+            {
+                return NotFound();
+            }
+
+            return View(brand);
+        }
+        */
+        public async Task<IActionResult> DetailsBrand(int? id)
+        {
+            if (id == null || _context.Vehicles == null)
+            {
+                return NotFound();
+            }
+
+            Vehicle vehicle = await _context.Vehicles.Include(c => c.Brands)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (vehicle == null)
+            {
+                return NotFound();
+            }
+
+            return View(vehicle);
         }
     }
 }

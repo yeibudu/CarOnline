@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CarOnline.Web.Models.Vehicle>
+﻿@model IEnumerable<CarOnline.Web.Models.Brand>
 
 @{ 
     ViewData["Title"] = "Index";
@@ -12,31 +12,22 @@
  <br />
 
 <p>
-    <a asp-action="Create" class="btn btn-primary"><i class="fas fa-plus"></i> Add New</a>
+    <a asp-action="CreateBrand" class="btn btn-primary"><i class="fas fa-plus"></i> Add New</a>
 </p>
 
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Vehicles</h3>
+                <h3 class="panel-title">Brands</h3>
                 </div> 
                 <div class="panel-body">
                     <table class="table table-hover table-responsive table-striped" id="MyTable">
                         <thead>
                             <tr>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.Plate)
-                                </th> 
-                                 <th>
-                                    @Html.DisplayNameFor(model => model.Model)
-                                </th>
-                                 <th>
-                                    @Html.DisplayNameFor(model => model.Doors)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Type)
-                                </th>
+                                    @Html.DisplayNameFor(model => model.Name)
+                                </th>              
                                  
                             </tr>
                         </thead>
@@ -45,20 +36,11 @@
                             {
                                 <tr>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Plate) 
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Model) 
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Doors) 
-                                    </td>
-                                     <td>
-                                        @Html.DisplayFor(modelItem => item.Type)
+                                        @Html.DisplayFor(modelItem => item.Name) 
                                     </td>
                                    <td>
-                                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning"><i class="fas fa-edit"></i></a> 
-                                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info"><i class="fas fa-align-justify"></i></a>
+                                        <a asp-action="EditBrand" asp-route-id="@item.Id" class="btn btn-warning"><i class="fas fa-edit"></i></a> 
+                                        <a asp-action="DetailsBrand" asp-route-id="@item.Id" class="btn btn-info"><i class="fas fa-align-justify"></i></a>
                                         <button data-id="@item.Id" class="btn btn-danger deleteItem" data-toggle="modal" data-target="#deleteDialog"><i class="fas fa-trash"></i></button>
                                 </tr> 
                                 }

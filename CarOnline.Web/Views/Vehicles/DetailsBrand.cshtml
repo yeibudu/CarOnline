@@ -1,10 +1,10 @@
 ﻿@model CarOnline.Web.Models.Vehicle
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "DetailsBrand";
 }
 
-<h1>Details</h1>
+<h1>Vehicles</h1>
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
 <link rel="stylesheet" href="~/lib/font-awesome/css/fontawesome.css" />
@@ -19,39 +19,29 @@
             @Html.DisplayNameFor(model => model.Plate)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Plate)
-        </dd>
-        <dt> 
             @Html.DisplayNameFor(model => model.Model)
-        </dt> 
-        <dd> 
-            @Html.DisplayFor(model => model.Model)
         </dd>
-        <dt> 
+         <dt>
             @Html.DisplayNameFor(model => model.Doors)
-        </dt> 
-        <dd> 
-            @Html.DisplayFor(model => model.Doors)
-        </dd>
-        <dt> 
+        </dt>
+        <dd>
             @Html.DisplayNameFor(model => model.Type)
-        </dt> 
-        <dd> 
-            @Html.DisplayFor(model => model.Type)
         </dd>
-         <dt> 
     </dl>
 </div>
 <div>
+    <a asp-action="Create" asp-route-id="@Model.Id" class="btn btn-primary"><i class="fas fa-plus"></i>Vehicle</a>
      <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning"><i class="fas fa-edit"></i>Edit</a>  
-    <a asp-action="Index"  class="btn btn-success">Back to List</a>
+    <a asp-action="BrandsIndex"  class="btn btn-success">Back to List</a>
 </div>
+
+<h1>Details</h1>
 
 <div class="row"> 
     <div class="col-md-12"> 
         <div class="panel panel-default"> 
             <div class="panel-heading"> 
-                <h3 class="panel-title">Brands</h3>
+                <h3 class="panel-title">Vehicles</h3>
             </div> 
             <div class="panel-body"> 
                 <table class="table table-hover table-responsive table-striped" id="MyTable"> 
@@ -60,10 +50,6 @@
                             <th> 
                                 @Html.DisplayNameFor(model => model.Brands.FirstOrDefault().Name) 
                             </th> 
-                            <th>
-                                
-                            </th> 
-                            <th></th> 
                        </tr> 
                     </thead> 
                     <tbody>
@@ -72,14 +58,11 @@
                             <tr>
                                 <td> 
                                     @Html.DisplayFor(modelItem => item.Name) 
-                                </td> 
+                                </td>
                                 <td> 
-                                    
-                                </td> 
-                                <td> 
-                                    <a asp-action="EditBrand" asp-route-id="@item.Id" class="btn btn-
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-
                                         warning"><i class="fas fa-edit"></i></a> 
-                                    <a asp-action="DetailsBrand" asp-route-id="@item.Id" class="btn btn-
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-
                                         info"><i class="fas fa-align-justify"i></a>
                                     <button data-id="@item.Id" class="btn btn-danger deleteItem"
                                         data-toggle="modal" data-target="#deleteDialog"><i class="fas fa-trash"></i>
@@ -106,5 +89,4 @@
         $('#MyTable').DataTable();
 // Delete item
 //  sc_deleteDialog.openModal('deleteItem', true, 'btnYesDelete', '/Countries/DeleteDepartment/', false); }); </script> }
-
 
